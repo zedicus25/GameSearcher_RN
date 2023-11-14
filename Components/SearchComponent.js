@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import database from '../database.json';
+import GameCard from './GameCard';
 
 const SearchResultsComponent = ({ route }) => {
     const { searchParams } = route.params;
@@ -23,11 +25,14 @@ const SearchResultsComponent = ({ route }) => {
         }
         if(searchParams.platform)
         {
-            url += `&platform=${searchParams.platform}`;
-            
+            url += `&platform=${searchParams.platform}`;   
         }
-        const response = await axios.post(url);
-        setSearchData(JSON.parse(response.data));
+        //const response = await axios.post(url);
+        //setSearchData(response.data);
+        //setSearchData(JSON.parse(database));
+        //console.log(database);
+        setSearchData(database);
+        
 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -35,7 +40,7 @@ const SearchResultsComponent = ({ route }) => {
     };
 
     fetchData();
-  }, [searchData]);
+  }, []);
 
   const navigation = useNavigation();
 
@@ -46,10 +51,11 @@ const SearchResultsComponent = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.backButton} onPress={goBack}>
-        <Text style={styles.backButtonText}>Back</Text>
-      </TouchableOpacity>
-     
+      <ScrollView>
+        {searchData.map((game) => (
+          <GameCard key={game.id} gameData={game} navigation={navigation} />
+        ))}
+      </ScrollView>
     </View>
   );
 };
