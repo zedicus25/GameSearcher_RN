@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { View, Text, Image, ScrollView, StyleSheet, FlatList } from 'react-native';
+import { View, Text, Image, ScrollView, StyleSheet, FlatList, Modal, TouchableOpacity } from 'react-native';
 
 const GameDetails = ({ route }) => {
   const { gameData } = route.params;
@@ -9,7 +9,6 @@ const GameDetails = ({ route }) => {
   } = gameData;
   const [searchData, setSearchData] = useState({});
 
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,19 +33,20 @@ const GameDetails = ({ route }) => {
       <Text style={styles.title}>{searchData.title}</Text>
       <Text style={styles.description}>{searchData.short_description}</Text>
       <Text style={styles.description}>{searchData.description}</Text>
+      <Text style={styles.title}>Other information:</Text>
       <Text style={styles.info}>Genre: {searchData.genre}</Text>
       <Text style={styles.info}>Platform: {searchData.platform}</Text>
       <Text style={styles.info}>Publisher: {searchData.publisher}</Text>
       <Text style={styles.info}>Developer: {searchData.developer}</Text>
       <Text style={styles.info}>Release Date: {searchData.release_date}</Text>
-
-      <FlatList
-  data={searchData.screenshots}
-  renderItem={({ item }) => <Image source={{ uri: item.image }} style={styles.screenshot} />}
-  keyExtractor={item => item.id.toString()}
-  horizontal
-  showsHorizontalScrollIndicator={false}
-/>
+      <Text style={styles.title}>Screenshots:</Text>
+       <FlatList
+        data={searchData.screenshots}
+        renderItem={({ item }) => <Image source={{ uri: item.image }} style={styles.screenshot} />}
+        keyExtractor={item => item.id.toString()}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+      /> 
     </ScrollView>
   );
 };
@@ -80,6 +80,37 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 8,
     marginRight: 8,
+  },
+
+  screenshotThumbnail: {
+    width: 100,
+    height: 100,
+    borderRadius: 8,
+    marginRight: 8,
+  },
+
+  // Modal styles
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+  },
+  modalScreenshot: {
+    width: 300,
+    height: 200,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  closeButton: {
+    padding: 10,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+  },
+  closeButtonText: {
+    color: '#333',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 
