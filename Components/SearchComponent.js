@@ -10,6 +10,7 @@ const SearchResultsComponent = ({ route }) => {
   const [searchData, setSearchData] = useState([]);
   const [allData, setAllData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [displayText, setDisplayText] = useState('Wait...');
 
 
   useEffect(() => {
@@ -28,11 +29,8 @@ const SearchResultsComponent = ({ route }) => {
           url += `&platform=${searchParams.platform}`;
         }
         const response = await axios.get(url);
-        //setSearchData(response.data);
-        //setSearchData(JSON.parse(database));
-        //console.log(database);
-        if (response.status < 200) {
-          console.log("Not");
+        if (response.status < 200 || response.status === 201) {
+          setDisplayText(() => "Games not found");
           return;
         }
         setAllData(response.data);
@@ -45,6 +43,7 @@ const SearchResultsComponent = ({ route }) => {
     };
 
     fetchData();
+      
   }, []);
 
   const navigation = useNavigation();
@@ -89,7 +88,7 @@ const SearchResultsComponent = ({ route }) => {
           </ScrollView>
         </View>
       ) : (
-        <Text style={styles.noScreenshotsText}>No games available</Text>
+        <Text style={styles.noScreenshotsText}>{displayText}</Text>
       )}
 
     </View>

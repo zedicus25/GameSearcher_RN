@@ -7,7 +7,12 @@ import { useNavigation } from '@react-navigation/native';
 const MainComponent = () => {
     const [showSplash, setShowSplash] = useState(true);
     const [isSwitchOn, setSwitchOn] = useState(false);
-    const [categories, setCategories] = useState(['MMORPG', 'Shooter', 'Strategy', 'Moba', 'Racing']);
+    const [categories, setCategories] = useState(['MMORPG', 'Shooter', 'Strategy', 'Moba', 
+        'Racing', 'Sports', 'Social', 'Sandbox', 'Open-world', 'Survival', 'PVP', 'PVE', 'Pixel', 'Voxel',
+        'Zombie', 'Turn-based', 'First-Person', 'Third-Person', 'Top-Down', 'Tank', 'Space', 'Saling',
+        'Side-Scoller', 'Superhero', 'Permadeath', 'Card', 'Battle-Royale', 'MMO', 'MMOFPS', 'MMOTPS',
+        '3D', '2D', 'Anime', 'Fantasy','Sci-Fi','Fighting','Action-RPG','Action','Military','Martial-Arts',
+        'Flight','Low-Spec','Tower-Defense', 'Horror', 'MMORTS']);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [platform, setPlatform] = useState('Browser');
     const [searchResults, setSearchResults] = useState('Browser');
@@ -28,7 +33,6 @@ const MainComponent = () => {
         };
 
         setSearchResults(searchParams); 
-        console.log(searchParams);
         navigation.navigate('Search', { searchParams: searchParams}); 
       };
 
@@ -39,10 +43,6 @@ const MainComponent = () => {
             setSelectedCategories([...selectedCategories, category]);
         }
     };
-
-    const handleSearchTextChange = (text) => {
-        setSeachText(text);
-      };
 
 
     const handleSwitchToggle = () => {
@@ -57,8 +57,6 @@ const MainComponent = () => {
                         <SplashComponent onSplashComplete={handleSplashComplete} />
                     ) : (
                         <View style={styles.content}>
-                            <Text style={styles.label}>Search:</Text>
-                            <TextInput style={styles.input} placeholder="Type here..." value={searchText} onChangeText={handleSearchTextChange} />
                             <ScrollView contentContainerStyle={styles.scrollView}>
                                 {categories.map((category, index) => (
                                     <View key={index} style={styles.checkboxContainer}>
@@ -94,8 +92,8 @@ const MainComponent = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 35,
-        marginBottom: 25,
+        marginTop: 15,
+        marginBottom: 35,
         marginLeft: 10,
         marginRight: 10
 
